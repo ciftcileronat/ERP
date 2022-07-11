@@ -1,68 +1,42 @@
 const express = require("express");
-const mysql = require("mysql");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const db = require("./models");
 
-app.listen(3001, () => {
-  console.log("Running on port 3001");
-});
-
-var con = mysql.createConnection({
-  host: "23.88.39.180",
-  user: "admin_admin",
-  password: "usBrnK8MJ0",
-  database: "admin_erp",
+db.sequelize.sync().then(() => {
+  app.listen(3001, () => {
+    console.log("Server running on port 3001");
+  });
 });
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/", (req, res) => {
-  console.log("Request arrived...");
-  res.send("This is response from request");
-});
+/*
+ !                     ROUTERS                     !
+*/
 
-app.post("/api/insert", (req, res) => {
-  const userName = req.body.userName;
-  var values = [[0, userName]];
+const departmentsRouter = require("./routes/Departments");
+app.use("/departments", departmentsRouter);
 
-  const sqlInsert = "INSERT INTO us (id, name) VALUES ?";
-  con.query(sqlInsert, [values], (err, result) => {
-    if (err) {
-      console.log(err);
-      return console.log("Error...");
-    }
-    console.log("Added..." + result.insertId);
-    res.send(result); //{ userName: userName, id: result.insertId }
-  });
-});
+const employeesRouter = require("./routes/Employees");
+app.use("/employees", employeesRouter);
 
-app.get("/api/get", (req, res) => {
-  const sqlSelect = "SELECT * FROM us";
-  con.query(sqlSelect, (err, result) => {
-    res.send(result);
-  });
-});
+const permissionsRouter = require("./routes/Permissions");
+app.use("/permissions", permissionsRouter);
 
-app.post("/api/login", (req, res) => {
-  console.log(req.body);
-  /*
-  con.query(sqlQuery, req.body.username, (err, result) => {
-    if (err) {
-      return console.log("Error...");
-    } else {
-      res.send(result);
-      /*
-      if (result.cnt > 0) {
-      } else {
-        res.send("User not found");
-      }
-      
-    }
-    
-  });
-  */
-});
+const salariesRouter = require("./routes/Salaries");
+app.use("/salaries", salariesRouter);
+
+const titlesRouter = require("./routes/Titles");
+app.use("/titles", titlesRouter);
+
+const usersRouter = require("./routes/Users");
+app.use("/users", usersRouter);
+
+/*
+ !                     ROUTERS                     !
+*/

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Box,
@@ -6,13 +6,10 @@ import {
   FormGroup,
   FormControlLabel,
   Button,
+  TextField,
 } from "@mui/material";
 import NextLink from "next/link";
 import Image from "next/image";
-
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
 
 import CustomCheckbox from "../../src/components/forms/custom-elements/CustomCheckbox";
 import CustomTextField from "../../src/components/forms/custom-elements/CustomTextField";
@@ -20,6 +17,35 @@ import CustomFormLabel from "../../src/components/forms/custom-elements/CustomFo
 
 import img1 from "../../assets/images/backgrounds/login-bg.svg";
 import LogoIcon from "../../src/layouts/logo/LogoIcon";
+
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
+
+import axios from "axios";
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const notyf = new Notyf({
+    position: {
+      x: "right",
+      y: "top",
+    },
+  });
+
+  const data = {
+    username: e.target.username.value,
+    password: e.target.password.value,
+  };
+
+  axios.post("http://localhost:3001/users/login", data).then((response) => {
+    if (response.data.type == 1) {
+      notyf.success(response.data.message);
+    } else {
+      notyf.error(response.data.message);
+    }
+  });
+};
 
 const Login = () => (
   <Grid container sx={{ height: "100vh", justifyContent: "center" }}>
@@ -75,93 +101,81 @@ const Login = () => (
             }}
           >
             <Typography fontWeight="700" variant="h2">
-              Welcome to Flexy
+              Welcome to ERP
             </Typography>
-            <Box display="flex" alignItems="center">
-              <Typography
-                color="textSecondary"
-                variant="h6"
-                fontWeight="500"
-                sx={{
-                  mr: 1,
-                }}
-              >
-                New to Flexy?
-              </Typography>
-              <NextLink href="/authentication/register">
-                <Typography
-                  fontWeight="500"
-                  sx={{
-                    display: "block",
-                    textDecoration: "none",
-                    color: "primary.main",
-                    cursor: "pointer",
-                  }}
-                >
-                  Create an account
-                </Typography>
-              </NextLink>
-            </Box>
+
             <Box
               sx={{
                 mt: 4,
               }}
             >
-              <CustomFormLabel htmlFor="email">Email Address</CustomFormLabel>
-              <CustomTextField id="email" variant="outlined" fullWidth />
-              <CustomFormLabel htmlFor="password">Password</CustomFormLabel>
-              <CustomTextField
-                id="password"
-                type="password"
-                variant="outlined"
-                fullWidth
-                sx={{
-                  mb: 3,
-                }}
-              />
-              <Box
-                sx={{
-                  display: {
-                    xs: "block",
-                    sm: "flex",
-                    lg: "flex",
-                  },
-                  alignItems: "center",
-                }}
-              >
-                <FormGroup>
-                  <FormControlLabel
-                    control={<CustomCheckbox defaultChecked />}
-                    label="Remeber this Device"
-                    sx={{
-                      mb: 2,
-                    }}
-                  />
-                </FormGroup>
+              <form onSubmit={handleSubmit}>
+                <CustomFormLabel htmlFor="username">Username</CustomFormLabel>
+                <CustomTextField
+                  id="username"
+                  name="username"
+                  variant="outlined"
+                  fullWidth
+                  sx={{
+                    mb: 3,
+                  }}
+                  required
+                ></CustomTextField>
+                <CustomFormLabel htmlFor="password">Password</CustomFormLabel>
+                <CustomTextField
+                  id="password"
+                  name="password"
+                  type="password"
+                  variant="outlined"
+                  fullWidth
+                  sx={{
+                    mb: 3,
+                  }}
+                  required
+                />
                 <Box
                   sx={{
-                    ml: "auto",
+                    display: {
+                      xs: "block",
+                      sm: "flex",
+                      lg: "flex",
+                    },
+                    alignItems: "center",
                   }}
                 >
-                  <NextLink href="/authentication/reset-password">
-                    <Typography
-                      fontWeight="500"
+                  <FormGroup>
+                    <FormControlLabel
+                      control={<CustomCheckbox defaultChecked />}
+                      label="Remeber this Device"
                       sx={{
-                        display: "block",
-                        textDecoration: "none",
-                        mb: "16px",
-                        color: "primary.main",
-                        cursor: "pointer",
+                        mb: 2,
                       }}
-                    >
-                      Forgot Password ?
-                    </Typography>
-                  </NextLink>
+                    />
+                  </FormGroup>
+                  <Box
+                    sx={{
+                      ml: "auto",
+                    }}
+                  >
+                    <NextLink href="/authentication/reset-password">
+                      <Typography
+                        fontWeight="500"
+                        sx={{
+                          display: "block",
+                          textDecoration: "none",
+                          mb: "16px",
+                          color: "primary.main",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Forgot Password ?
+                      </Typography>
+                    </NextLink>
+                  </Box>
                 </Box>
-              </Box>
 
-              <NextLink href="/">
                 <Button
+                  type="submit"
                   color="secondary"
                   variant="contained"
                   size="large"
@@ -173,7 +187,7 @@ const Login = () => (
                 >
                   Sign In
                 </Button>
-              </NextLink>
+              </form>
               <Box
                 sx={{
                   position: "relative",
@@ -193,180 +207,7 @@ const Login = () => (
                     top: "13px",
                   },
                 }}
-              >
-                <Typography
-                  component="span"
-                  color="textSecondary"
-                  variant="h6"
-                  fontWeight="400"
-                  sx={{
-                    position: "relative",
-                    padding: "0 12px",
-                    background: (theme) =>
-                      `${theme.palette.mode === "dark" ? "#282c34" : "#fff"}`,
-                  }}
-                >
-                  or sign in with
-                </Typography>
-              </Box>
-
-              <Box>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  display="flex"
-                  alignitems="center"
-                  justifycontent="center"
-                  sx={{
-                    width: "100%",
-                    borderColor: (theme) =>
-                      `${
-                        theme.palette.mode === "dark" ? "#42464d" : "#dde3e8"
-                      }`,
-                    borderWidth: "2px",
-                    textAlign: "center",
-                    mt: 2,
-                    pt: "10px",
-                    pb: "10px",
-                    "&:hover": {
-                      borderColor: (theme) =>
-                        `${
-                          theme.palette.mode === "dark" ? "#42464d" : "#dde3e8"
-                        }`,
-                      borderWidth: "2px",
-                    },
-                  }}
-                >
-                  <Box display="flex" alignItems="center">
-                    <GoogleIcon
-                      sx={{
-                        color: (theme) => theme.palette.error.main,
-                      }}
-                    />
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        ml: 1,
-                        color: (theme) =>
-                          `${
-                            theme.palette.mode === "dark"
-                              ? theme.palette.grey.A200
-                              : "#13152a"
-                          }`,
-                      }}
-                    >
-                      Google
-                    </Typography>
-                  </Box>
-                </Button>
-              </Box>
-
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6} lg={6}>
-                  <Button
-                    variant="outlined"
-                    size="large"
-                    display="flex"
-                    alignitems="center"
-                    justifycontent="center"
-                    sx={{
-                      width: "100%",
-                      borderColor: (theme) =>
-                        `${
-                          theme.palette.mode === "dark" ? "#42464d" : "#dde3e8"
-                        }`,
-                      borderWidth: "2px",
-                      textAlign: "center",
-                      mt: 2,
-                      pt: "10px",
-                      pb: "10px",
-                      "&:hover": {
-                        borderColor: (theme) =>
-                          `${
-                            theme.palette.mode === "dark"
-                              ? "#42464d"
-                              : "#dde3e8"
-                          }`,
-                        borderWidth: "2px",
-                      },
-                    }}
-                  >
-                    <Box display="flex" alignItems="center">
-                      <FacebookIcon
-                        sx={{
-                          color: (theme) => theme.palette.secondary.main,
-                        }}
-                      />
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          ml: 1,
-                          color: (theme) =>
-                            `${
-                              theme.palette.mode === "dark"
-                                ? theme.palette.grey.A200
-                                : "#13152a"
-                            }`,
-                        }}
-                      >
-                        Facebook
-                      </Typography>
-                    </Box>
-                  </Button>
-                </Grid>
-                <Grid item xs={12} sm={6} lg={6}>
-                  <Button
-                    variant="outlined"
-                    size="large"
-                    display="flex"
-                    alignitems="center"
-                    justifycontent="center"
-                    sx={{
-                      width: "100%",
-                      borderColor: (theme) =>
-                        `${
-                          theme.palette.mode === "dark" ? "#42464d" : "#dde3e8"
-                        }`,
-                      borderWidth: "2px",
-                      textAlign: "center",
-                      mt: 2,
-                      pt: "10px",
-                      pb: "10px",
-                      "&:hover": {
-                        borderColor: (theme) =>
-                          `${
-                            theme.palette.mode === "dark"
-                              ? "#42464d"
-                              : "#dde3e8"
-                          }`,
-                        borderWidth: "2px",
-                      },
-                    }}
-                  >
-                    <Box display="flex" alignItems="center">
-                      <TwitterIcon
-                        sx={{
-                          color: (theme) => theme.palette.primary.main,
-                        }}
-                      />
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          ml: 1,
-                          color: (theme) =>
-                            `${
-                              theme.palette.mode === "dark"
-                                ? theme.palette.grey.A200
-                                : "#13152a"
-                            }`,
-                        }}
-                      >
-                        Twitter
-                      </Typography>
-                    </Box>
-                  </Button>
-                </Grid>
-              </Grid>
+              ></Box>
             </Box>
           </Box>
         </Grid>
@@ -374,5 +215,6 @@ const Login = () => (
     </Grid>
   </Grid>
 );
+
 Login.layout = "Blank";
 export default Login;
