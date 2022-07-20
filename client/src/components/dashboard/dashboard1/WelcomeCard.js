@@ -2,8 +2,9 @@ import React from "react";
 import Image from "next/image";
 import { Card, CardContent, Button, Typography, Box } from "@mui/material";
 import imgsvg from "../../../../assets/images/backgrounds/welcome-bg2-2x-svg.svg";
+import { useSession } from "next-auth/react";
 
-const WelcomeCard = () => (
+const WelcomeCard = (props) => (
   <Card
     elevation={0}
     sx={{
@@ -26,7 +27,8 @@ const WelcomeCard = () => (
         variant="h3"
         gutterBottom
       >
-        Hey Julia, <br /> Download Latest Report
+        Hey ,
+        <br /> Download Latest Report
       </Typography>
       <Button
         sx={{

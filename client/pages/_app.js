@@ -1,4 +1,5 @@
 import * as React from "react";
+//import { Provider } from "next-auth/client";
 import PropTypes from "prop-types";
 import Head from "next/head";
 import { useSelector } from "react-redux";
@@ -10,6 +11,7 @@ import ThemeSettings from "../src/theme/ThemeSettings";
 import createEmotionCache from "../src/createEmotionCache";
 import FullLayout from "../src/layouts/FullLayout";
 import BlankLayout from "../src/layouts/BlankLayout";
+import { SessionProvider } from "next-auth/react";
 import "../styles/style.scss";
 import "../data";
 import wrapper from "../src/store/Store";
@@ -21,25 +23,33 @@ const layouts = {
 };
 
 function MyApp(props) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const {
+    Component,
+    emotionCache = clientSideEmotionCache,
+    pageProps,
+    session,
+  } = props;
+
   const Gettheme = ThemeSettings();
   const customizer = useSelector((state) => state.CustomizerReducer);
   const Layout = layouts[Component.layout] || FullLayout;
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <title>Flexy NextJs Starter kit page</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <ThemeProvider theme={Gettheme}>
-        <RTL direction={customizer.activeDir}>
-          <CssBaseline />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </RTL>
-      </ThemeProvider>
-    </CacheProvider>
+    <SessionProvider session={session} basePath="/api/auth/">
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <title>Here</title>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+        </Head>
+        <ThemeProvider theme={Gettheme}>
+          <RTL direction={customizer.activeDir}>
+            <CssBaseline />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </RTL>
+        </ThemeProvider>
+      </CacheProvider>
+    </SessionProvider>
   );
 }
 

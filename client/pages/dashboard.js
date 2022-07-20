@@ -11,7 +11,17 @@ import {
   DailyActivities,
 } from "../src/components/dashboard/dashboard1";
 
-const Dashboard1 = () => {
+import {
+  getSession,
+  useSession,
+  getCsrfToken,
+  getProviders,
+} from "next-auth/react";
+
+function Dashboard() {
+  const { data: session } = useSession();
+  console.log(session.user);
+
   return (
     <Grid container spacing={0}>
       {/* ------------------------- row 1 ------------------------- */}
@@ -48,6 +58,27 @@ const Dashboard1 = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
-export default Dashboard1;
+export default Dashboard;
+
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+
+  if (!session) {
+    return {
+      redirect: { destination: "/authentication/login" },
+    };
+  }
+
+  const csrfToken = await getCsrfToken(context);
+  const providers = await getProviders();
+
+  return {
+    props: {
+      session,
+      csrfToken,
+      providers,
+    },
+  };
+}

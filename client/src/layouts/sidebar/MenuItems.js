@@ -51,6 +51,7 @@ const Menuitems = [
       },
     ],
   },
+  /*
   {
     navlabel: true,
     subheader: "Projects",
@@ -72,8 +73,14 @@ const Menuitems = [
         icon: "list",
         href: "/projects/projectb",
       },
+      {
+        title: "Project C",
+        icon: "list",
+        href: "/projects/projectc",
+      },
     ],
   },
+  */
   {
     navlabel: true,
     subheader: "Inventory",

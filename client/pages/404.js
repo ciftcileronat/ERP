@@ -43,7 +43,7 @@ const Error = () => (
       >
         This page could not be found.
       </Typography>
-      <NextLink href="/dashboards/dashboard1">
+      <NextLink href="/dashboard">
         <Button color="primary" variant="contained" disableElevation>
           Back to Home
         </Button>

@@ -11,7 +11,16 @@ import {
   Button,
   Divider,
 } from "@mui/material";
-const ProfileDD = () => {
+
+import { useSession, signOut } from "next-auth/react";
+
+function ProfileDD() {
+  const { data: session, status } = useSession();
+
+  function logoutHandler() {
+    signOut();
+  }
+
   const [anchorEl4, setAnchorEl4] = React.useState(null);
 
   const handleClick4 = (event) => {
@@ -296,7 +305,7 @@ const ProfileDD = () => {
               </Box>
             </MenuItem>
           </Box>
-          <NextLink href="/authentication/login">
+          <NextLink href="">
             <Button
               sx={{
                 mt: 2,
@@ -305,6 +314,7 @@ const ProfileDD = () => {
               }}
               variant="contained"
               color="primary"
+              onClick={logoutHandler}
             >
               Logout
             </Button>
@@ -313,6 +323,6 @@ const ProfileDD = () => {
       </Menu>
     </>
   );
-};
+}
 
 export default ProfileDD;

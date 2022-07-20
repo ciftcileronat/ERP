@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Users } = require("../models");
+const { Users, Employees, Permissions } = require("../models");
 const bcrypt = require("bcrypt");
 
 router.post("/all", async (req, res) => {});
@@ -8,11 +8,26 @@ router.post("/all", async (req, res) => {});
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await Users.findOne({ where: { username: username } });
+  const employee = await Employees.findOne({ where: { username: username } });
+  const permissions = await Permissions.findOne({
+    where: { username: username },
+  });
 
   if (user) {
     bcrypt.compare(password, user.password).then((match) => {
       if (match) {
-        res.json({ message: "Successful!", type: 1 });
+        res.json({
+          message: "Successful!",
+          type: 1,
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          fullname: employee.fullname,
+          isSysAdmin: permissions.isSysAdmin,
+          isIt: permissions.isIt,
+          isManager: permissions.isManager,
+          isBoard: permissions.isBoard,
+        });
       } else {
         res.json({ message: "Wrong password!", type: 0 });
       }
