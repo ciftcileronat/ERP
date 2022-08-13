@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@mui/material";
+import Link from "next/link";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import LogoDark from "../../../assets/images/logos/logo-dark.svg";
@@ -8,7 +8,7 @@ import LogoLight from "../../../assets/images/logos/logo-white.svg";
 const LogoIcon = () => {
   const customizer = useSelector((state) => state.CustomizerReducer);
   return (
-    <Link href="/">
+    <Link href="/dashboard">
       {customizer.activeMode === "dark" ? (
         <Image src={LogoLight} alt={LogoLight} />
       ) : (

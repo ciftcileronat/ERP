@@ -20,7 +20,7 @@ import {
 
 function Dashboard() {
   const { data: session } = useSession();
-  console.log(session.user);
+  console.log(session);
 
   return (
     <Grid container spacing={0}>

@@ -1,34 +1,37 @@
 import * as React from "react";
-import axios, { Axios } from "axios";
+import axios from "axios";
+import { Grid } from "@mui/material";
+import { EmployeeForm } from "../../src/components/forms/employees/index";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
+import { useRouter } from "next/dist/client/router";
 
 function CreateEmployee() {
-  const [userName, setUserName] = React.useState("");
+  const router = useRouter();
 
-  const submitReview = () => {
+  const notyf = new Notyf({
+    position: {
+      x: "right",
+      y: "top",
+    },
+  });
+
+  async function createEmployeeSubmitHandler(employeeData) {
     axios
-      .post("http://localhost:3001/api/insert", {
-        userName: userName,
-      })
-      .then((res) => {
-        alert("Added ID: " + res.data.insertId);
+      .post("http://localhost:3001/employees/create", employeeData)
+      .then((response) => {
+        if (response.error) {
+          notyf.error(response.message);
+        } else {
+          notyf.success("Successful!");
+          router.replace("/employees/all");
+        }
       });
-  };
+  }
   return (
-    <div className="App">
-      <h1>CRUD OP</h1>
-
-      <div className="form">
-        <label>Username:</label>
-        <input
-          type="text"
-          name="userName"
-          onChange={(e) => {
-            setUserName(e.target.value);
-          }}
-        ></input>
-        <button onClick={submitReview}>Submit</button>
-      </div>
-    </div>
+    <Grid item lg={12} md={12} xs={12}>
+      <EmployeeForm onCreateEmployee={createEmployeeSubmitHandler} />
+    </Grid>
   );
 }
 

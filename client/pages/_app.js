@@ -37,7 +37,7 @@ function MyApp(props) {
     <SessionProvider session={session} basePath="/api/auth/">
       <CacheProvider value={emotionCache}>
         <Head>
-          <title>Here</title>
+          <title>{props.title}</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
         <ThemeProvider theme={Gettheme}>

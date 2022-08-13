@@ -18,15 +18,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     dateOfBirth: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
+      allowNull: true,
     },
     totalSalary: {
       type: DataTypes.FLOAT,
-      allowNull: false,
+      allowNull: true,
     },
     sex: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   });
 

@@ -27,7 +27,7 @@ const WelcomeCard = (props) => (
         variant="h3"
         gutterBottom
       >
-        Hey ,
+        Hey , {props.username}
         <br /> Download Latest Report
       </Typography>
       <Button

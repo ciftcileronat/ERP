@@ -1,15 +1,18 @@
-import { Grid } from "@mui/material";
-import * as React from "react";
-import { Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import EmployeeTable from "../tables/employees";
+import EmployeesList from "../../src/components/employees/EmployeesList";
 
 function AllEmployee() {
-  return (
-    <Grid>
-      <EmployeeTable />
-    </Grid>
-  );
+  const [employees, setEmployees] = useState([]);
+
+  useEffect(() => {
+    axios.post("http://localhost:3001/employees/all").then((response) => {
+      setEmployees(response.data);
+      console.log("rendered");
+    });
+  }, []);
+
+  return <EmployeesList employees={employees} />;
 }
 
 export default AllEmployee;
