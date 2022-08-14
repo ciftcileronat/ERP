@@ -16,6 +16,8 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 /*
+ !                     BEGINS                      !
+ !                       O F                       !
  !                     ROUTERS                     !
 */
 
@@ -37,6 +39,11 @@ app.use("/titles", titlesRouter);
 const usersRouter = require("./routes/Users");
 app.use("/users", usersRouter);
 
+const inventoryRouter = require("./routes/Inventory");
+app.use("/inventory", inventoryRouter);
+
 /*
- !                     ROUTERS                     !
+ !                      E N D                       !
+ !                       O F                        !
+ !                     ROUTERS                      !
 */
