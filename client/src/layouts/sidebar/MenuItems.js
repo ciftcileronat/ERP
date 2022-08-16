@@ -47,7 +47,7 @@ const Menuitems = [
       {
         title: "Bank A",
         icon: "list",
-        href: "/banks/banka",
+        href: "",
       },
     ],
   },
@@ -95,12 +95,12 @@ const Menuitems = [
       {
         title: "Office A",
         icon: "list",
-        href: "/inventory/officea",
+        href: "",
       },
       {
         title: "Office B",
         icon: "list",
-        href: "/inventory/officeb",
+        href: "",
       },
     ],
   },

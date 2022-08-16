@@ -14,7 +14,7 @@ import {
 
 import { useSession, signOut } from "next-auth/react";
 
-function ProfileDD() {
+function ProfileDD(props) {
   const { data: session, status } = useSession();
 
   function logoutHandler() {
@@ -71,7 +71,7 @@ function ProfileDD() {
                 ml: 1,
               }}
             >
-              Julia
+              {/*session.user.fullname props.fullname*/}
             </Typography>
             <FeatherIcon icon="chevron-down" width="20" height="20" />
           </Box>
@@ -131,7 +131,7 @@ function ProfileDD() {
                     lineHeight: "1.235",
                   }}
                 >
-                  Julia Roberts
+                  {/*session.user.fullname props.fullname*/}
                 </Typography>
                 <Typography color="textSecondary" variant="h6" fontWeight="400">
                   Administrator

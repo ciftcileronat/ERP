@@ -11,8 +11,12 @@ import {
   FormControl,
   InputAdornment,
   OutlinedInput,
-  CustomTextField,
 } from "@mui/material";
+
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+
 import FeatherIcon from "feather-icons-react";
 import CustomFormLabel from "../custom-elements/CustomFormLabel";
 import DepartmentComboBox from "../combobox/DepartmentComboBox";
@@ -24,6 +28,7 @@ function EmployeeForm(props) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [fullname, setFullname] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [department, setDepartment] = useState("");
   const [title, setTitle] = useState("");
 
@@ -35,6 +40,7 @@ function EmployeeForm(props) {
       email: email,
       password: password,
       fullname: fullname,
+      dateOfBirth: dateOfBirth,
       department: department,
       title: title,
     };
@@ -177,6 +183,22 @@ function EmployeeForm(props) {
                   }}
                   required
                 />
+              </FormControl>
+
+              <FormControl fullWidth>
+                <CustomFormLabel htmlFor="cpwd-text">
+                  Date of Birth
+                </CustomFormLabel>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DesktopDatePicker
+                    inputFormat="MM/dd/yyyy"
+                    renderInput={(params) => <TextField {...params} />}
+                    value={dateOfBirth}
+                    onChange={(e) => {
+                      setDateOfBirth(e);
+                    }}
+                  />
+                </LocalizationProvider>
               </FormControl>
 
               <FormControl fullWidth>

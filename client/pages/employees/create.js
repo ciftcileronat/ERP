@@ -17,6 +17,8 @@ function CreateEmployee() {
   });
 
   async function createEmployeeSubmitHandler(employeeData) {
+    console.log(employeeData);
+
     axios
       .post("http://localhost:3001/employees/create", employeeData)
       .then((response) => {

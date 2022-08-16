@@ -2,9 +2,23 @@ const express = require("express");
 const router = express.Router();
 const { Employees } = require("../models");
 
-router.post("/all", async (req, res) => {
+router.get("/all", async (req, res) => {
   const employees = await Employees.findAll();
   res.json(employees);
+});
+
+/*
+router.get("/", async (req, res) => {
+  console.log(req.body);
+  console.log("geldi");
+  res.send("geldi");
+});
+*/
+
+router.post("/employee", async (req, res) => {
+  console.log(req.body);
+  const employee = await Employees.findOne({ where: { id: req.body.id } });
+  res.send(employee);
 });
 
 router.post("/create", async (req, res) => {
@@ -14,7 +28,7 @@ router.post("/create", async (req, res) => {
     fullname: req.body.fullname,
     title: req.body.title,
     department: req.body.department,
-    dateOfBirth: "1995-05-25",
+    dateOfBirth: req.body.dateOfBirth,
     totalSalary: 0,
     sex: "F",
   }).then(function (users) {

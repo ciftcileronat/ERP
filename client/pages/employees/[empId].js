@@ -1,16 +1,35 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Card, Grid, Typography, Button, Autocomplete } from "@mui/material";
+import { Card, Grid, Typography, Button } from "@mui/material";
 
 import av1 from "../../assets/images/users/4.jpg";
 import CustomTextField from "../../src/components/forms/custom-elements/CustomTextField";
 import CustomFormLabel from "../../src/components/forms/custom-elements/CustomFormLabel";
+import axios from "axios";
 
 function employeeDetailPage() {
   const router = useRouter();
-  const { empId } = router.query;
-  console.log(empId);
+  const [id, setId] = useState("");
+  const [username, setUsername] = useState("");
+  const [title, setTitle] = useState("");
+  const [department, setDepartment] = useState("");
+  const [fullname, setFullname] = useState("");
+
+  useEffect(() => {
+    setId(router.query.empId);
+    axios
+      .post("http://localhost:3001/employees/employee", {
+        id: id,
+      })
+      .then((response) => {
+        console.log(response.data);
+        setUsername(response.data.username);
+        setFullname(response.data.fullname);
+        setTitle(response.data.title);
+        setDepartment(response.data.department);
+      });
+  }, [id]);
 
   return (
     <Grid container spacing={0}>
@@ -24,9 +43,9 @@ function employeeDetailPage() {
             className="roundedCircle"
           />
           <Typography variant="h2" sx={{ mt: 1 }}>
-            Nirav Joshi
+            {fullname}
           </Typography>
-          <Typography variant="body2">FullStack Developer</Typography>
+          <Typography variant="body2">{title}</Typography>
           <Typography variant="h6" fontWeight="600" sx={{ mt: 3, mb: 1 }}>
             Address
           </Typography>
@@ -52,6 +71,10 @@ function employeeDetailPage() {
               fullWidth
               size="small"
               sx={{ mb: 2 }}
+              value={fullname}
+              onChange={(e) => {
+                setFullname(e.target.value);
+              }}
             />
 
             <CustomFormLabel htmlFor="Email">Email</CustomFormLabel>

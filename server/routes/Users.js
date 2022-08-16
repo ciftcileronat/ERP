@@ -3,7 +3,10 @@ const router = express.Router();
 const { Users, Employees, Permissions } = require("../models");
 const bcrypt = require("bcrypt");
 
-router.post("/all", async (req, res) => {});
+router.get("/all", async (req, res) => {
+  const allUsers = await Users.findAll();
+  res.json(allUsers);
+});
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;

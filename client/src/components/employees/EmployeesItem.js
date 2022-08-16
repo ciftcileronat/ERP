@@ -1,18 +1,37 @@
 import React from "react";
+import { useRouter } from "next/router";
+import { Button, TableCell, TableRow } from "@mui/material";
 
 function EmployeesItem(props) {
+  const router = useRouter();
+
+  function handleEditEmployee(e) {
+    let employeeId = e.target.id;
+    console.log(employeeId);
+    router.push("/employees/" + employeeId);
+  }
+
   return (
-    <tr>
-      <td>{props.id}</td>
-      <td>{props.username}</td>
-      <td>{props.fullname}</td>
-      <td>{props.department}</td>
-      <td>{props.title}</td>
-      <td>{props.dateOfBirth}</td>
-      <td>
-        <button id={props.id}>Edit</button>
-      </td>
-    </tr>
+    <TableRow>
+      <TableCell>{props.id}</TableCell>
+      <TableCell>{props.username}</TableCell>
+      <TableCell>{props.fullname}</TableCell>
+      <TableCell>{props.department}</TableCell>
+      <TableCell>{props.title}</TableCell>
+      <TableCell>{props.dateOfBirth}</TableCell>
+      <TableCell>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{}}
+          aria-label="primary-bell"
+          id={props.id}
+          onClick={handleEditEmployee}
+        >
+          Edit
+        </Button>
+      </TableCell>
+    </TableRow>
   );
 }
 

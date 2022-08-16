@@ -20,13 +20,12 @@ import {
 
 function Dashboard() {
   const { data: session } = useSession();
-  console.log(session);
 
   return (
     <Grid container spacing={0}>
       {/* ------------------------- row 1 ------------------------- */}
       <Grid item xs={12} lg={6}>
-        <WelcomeCard />
+        <WelcomeCard fullname={session.user.fullname} />
         <Grid container spacing={0}>
           <Grid item xs={12} lg={6} sm={6}>
             <Earnings />
@@ -36,17 +35,19 @@ function Dashboard() {
           </Grid>
         </Grid>
       </Grid>
+
       <Grid item xs={12} lg={6}>
         <SalesOverview />
       </Grid>
-      {/* ------------------------- row 2 ------------------------- */}
+      {/*}
+      { ------------------------- row 2 ------------------------- }
       <Grid item xs={12} lg={4}>
         <TotalSales />
       </Grid>
       <Grid item xs={12} lg={8}>
         <ProductPerformance />
       </Grid>
-      {/* ------------------------- row 3 ------------------------- */}
+      { ------------------------- row 3 ------------------------- }
       <Grid item xs={12} lg={4}>
         <BlogCard />
       </Grid>
@@ -56,6 +57,7 @@ function Dashboard() {
       <Grid item xs={12} lg={4}>
         <DailyActivities />
       </Grid>
+      */}
     </Grid>
   );
 }
