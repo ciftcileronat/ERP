@@ -23,10 +23,8 @@ import DepartmentComboBox from "../combobox/DepartmentComboBox";
 import TitleComboBox from "../combobox/TitleComboBox";
 
 function EmployeeForm(props) {
+  console.log(props);
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [fullname, setFullname] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [department, setDepartment] = useState("");
@@ -37,12 +35,12 @@ function EmployeeForm(props) {
 
     const employeeData = {
       username: username,
-      email: email,
-      password: password,
       fullname: fullname,
       dateOfBirth: dateOfBirth,
       department: department,
       title: title,
+      totalSalary: 0,
+      sex: "M",
     };
 
     props.onCreateEmployee(employeeData);
@@ -122,68 +120,6 @@ function EmployeeForm(props) {
                 />
               </FormControl>
               {/* 2 */}
-              <FormControl fullWidth>
-                <CustomFormLabel htmlFor="mail-text">Email</CustomFormLabel>
-                <OutlinedInput
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <FeatherIcon icon="mail" width="20" />
-                    </InputAdornment>
-                  }
-                  id="mail-text"
-                  placeholder="Email"
-                  fullWidth
-                  size="small"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                  required
-                />
-              </FormControl>
-              {/* 3 */}
-              <FormControl fullWidth>
-                <CustomFormLabel htmlFor="pwd-text">Password</CustomFormLabel>
-                <OutlinedInput
-                  type="password"
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <FeatherIcon icon="lock" width="20" />
-                    </InputAdornment>
-                  }
-                  id="pwd-text"
-                  placeholder="Password"
-                  fullWidth
-                  size="small"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                  required
-                />
-              </FormControl>
-
-              <FormControl fullWidth>
-                <CustomFormLabel htmlFor="cpwd-text">
-                  Confirm Password
-                </CustomFormLabel>
-                <OutlinedInput
-                  startAdornment={
-                    <InputAdornment position="start">
-                      <FeatherIcon icon="lock" width="20" />
-                    </InputAdornment>
-                  }
-                  id="cpwd-text"
-                  placeholder="Confirm Password"
-                  fullWidth
-                  size="small"
-                  value={confirmPassword}
-                  onChange={(e) => {
-                    setConfirmPassword(e.target.value);
-                  }}
-                  required
-                />
-              </FormControl>
 
               <FormControl fullWidth>
                 <CustomFormLabel htmlFor="cpwd-text">

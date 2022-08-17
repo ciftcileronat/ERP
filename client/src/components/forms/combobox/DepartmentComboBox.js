@@ -22,6 +22,7 @@ function DepartmentComboBox(props) {
       id="department"
       options={departments}
       fullWidth
+      value={props.currentDepartment}
       renderInput={(params) => (
         <TextField
           {...params}

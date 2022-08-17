@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import FeatherIcon from "feather-icons-react";
 import Image from "next/image";
 import NextLink from "next/link";
@@ -12,11 +12,16 @@ import {
   Divider,
 } from "@mui/material";
 
-import { useSession, signOut } from "next-auth/react";
+import {
+  getSession,
+  useSession,
+  getCsrfToken,
+  getProviders,
+} from "next-auth/react";
+
+import { signOut } from "next-auth/react";
 
 function ProfileDD(props) {
-  const { data: session, status } = useSession();
-
   function logoutHandler() {
     signOut();
   }
@@ -30,6 +35,7 @@ function ProfileDD(props) {
   const handleClose4 = () => {
     setAnchorEl4(null);
   };
+
   return (
     <>
       <Button
@@ -71,7 +77,7 @@ function ProfileDD(props) {
                 ml: 1,
               }}
             >
-              {/*session.user.fullname props.fullname*/}
+              {/*props.session.user.fullname*/}
             </Typography>
             <FeatherIcon icon="chevron-down" width="20" height="20" />
           </Box>
@@ -131,7 +137,7 @@ function ProfileDD(props) {
                     lineHeight: "1.235",
                   }}
                 >
-                  {/*session.user.fullname props.fullname*/}
+                  {/*props.session.user.fullname*/}
                 </Typography>
                 <Typography color="textSecondary" variant="h6" fontWeight="400">
                   Administrator
@@ -326,3 +332,24 @@ function ProfileDD(props) {
 }
 
 export default ProfileDD;
+
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+
+  if (!session) {
+    return {
+      redirect: { destination: "/authentication/login" },
+    };
+  }
+
+  const csrfToken = await getCsrfToken(context);
+  const providers = await getProviders();
+
+  return {
+    props: {
+      session,
+      csrfToken,
+      providers,
+    },
+  };
+}

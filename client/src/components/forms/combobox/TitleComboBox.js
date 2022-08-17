@@ -21,6 +21,7 @@ function DepartmentComboBox(props) {
       disablePortal
       id="title"
       options={titles}
+      value={props.currentTitle}
       fullWidth
       renderInput={(params) => (
         <TextField
